@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const { todosController } = require('../controllers');
 
 const userRoutes = () => {
-  userRouter.route("/").get(todosController.todos);
+  userRouter.route("/").get(todosController.task);
   return userRouter;
 };
 

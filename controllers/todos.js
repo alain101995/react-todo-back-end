@@ -1,11 +1,11 @@
 
 const todosController = () => {
-  const todos = (req, res) => {
-   res.send(console.log('Hello'))
+  console.log('Here')
+  const task = (req, res) => {
+    
   };
-
   return {
-    todos,
+    task,
   };
 };
 

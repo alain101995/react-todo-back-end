@@ -1,70 +1,81 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const mongoDB = 'mongodb://127.0.0.1/my_database';
+mongoose.connect(mongoDB);
+
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
 
-const seconds = 1000,
-  minutes = 60,
-  hour = 60,
-  days = 24
+const db = mongoose.connection;
 
-const oneDay = seconds * minutes * hour * days;
-const runesSchema = new Schema({
-  expireAt: Date,
-  summonerId: Number,
-  pages: Array // Properties => id: Number, name: String, current: Boolean, slots [{ runeSlotId: Number, runeId: Number}]
-});
-const Runes = mongoose.model('runes', runesSchema);
+db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
-function findInRunesDb(summonerId) {
-  return new Promise(function (resolve, reject) {
-    Runes.find({ 'summonerId': summonerId }, 'summonerId name expireAt pages', function (err, runesData) {
-      console.log('RunesData', runesData)
-      if (runesData.length < 1 || runesData.expireAt < new Date(new Date().getTime())) {
-        // console.log('Theres no data or its expired (connection)', runesData[0].expireAt, 'My Time', new Date(new Date().getTime()));
-        // console.log('Runes Data', runesData)
-        resolve(false)
-      }
-      else {
-        // console.log('Data not expired and there is data', runesData[0].expireAt, 'My Time', new Date(new Date().getTime()));
-        resolve(runesData)
-      }
-      reject(err)
-    });
-  });
-}
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+// mongoose.Promise = global.Promise;
+// mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
 
-function create(runes) {
-  const expireAt = new Date(new Date().getTime() + oneDay),
-    runesData = new Runes({
-      expireAt,
-      summonerId: runes.summonerId,
-      pages: runes.pages
-    });
-  console.log('Created', runesData);
-  return runesData.save();
-}
+// const seconds = 1000,
+//   minutes = 60,
+//   hour = 60,
+//   days = 24
 
-function remove(summonerId) {
-  Runes.remove({ 'summonerId': summonerId }, function (err) {
-    if (err) return (err);
-    console.log('Removed')
-  });
-}
+// const oneDay = seconds * minutes * hour * days;
+// const runesSchema = new Schema({
+//   expireAt: Date,
+//   userID: Number,
+//   firstName: String,
+//   lastName: String,
+//   phones: String[],
+//   emails: String[]
+// });
+// const Runes = mongoose.model('runes', runesSchema);
 
-module.exports = {
-  create,
-  findInRunesDb,
-  remove
-}
+// function findInRunesDb(summonerId) {
+//   return new Promise(function (resolve, reject) {
+//     Runes.find({ 'summonerId': summonerId }, 'summonerId name expireAt pages', function (err, runesData) {
+//       console.log('RunesData', runesData)
+//       if (runesData.length < 1 || runesData.expireAt < new Date(new Date().getTime())) {
+//         resolve(false)
+//       }
+//       else {
+//         resolve(runesData)
+//       }
+//       reject(err)
+//     });
+//   });
+// }
 
-/*
-function save(runes) {
-  runesData.save(runes, function (error) {
-    console.log('Data saved');
-    if (error) {
-      console.log(error);
-    }
-  });
-}
-*/
+// function create(runes) {
+//   const expireAt = new Date(new Date().getTime() + oneDay),
+//     runesData = new Runes({
+//       expireAt,
+//       summonerId: runes.summonerId,
+//       pages: runes.pages
+//     });
+//   console.log('Created', runesData);
+//   return runesData.save();
+// }
+
+// function remove(summonerId) {
+//   Runes.remove({ 'summonerId': summonerId }, function (err) {
+//     if (err) return (err);
+//     console.log('Removed')
+//   });
+// }
+
+// module.exports = {
+//   create,
+//   findInRunesDb,
+//   remove
+// }
+
+// /*
+// function save(runes) {
+//   runesData.save(runes, function (error) {
+//     console.log('Data saved');
+//     if (error) {
+//       console.log(error);
+//     }
+//   });
+// }
+// */

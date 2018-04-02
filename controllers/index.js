@@ -1,1 +1,1 @@
-module.exports.todos = require('./todos');
+module.exports.todosController = require('./todos');
