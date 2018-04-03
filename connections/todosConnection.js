@@ -7,6 +7,17 @@ mongoose.connect(mongoDB);
 
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
+const data = {
+  taskID: 2,
+  userID: 2,
+  title: "To code",
+  description: "Code",
+  dueDate: "2018-12-22T08:15:00Z",
+  createdDate: "2017-12-22T08:15:00Z",
+  completedDate: "2018-11-22T08:15:00Z",
+  completed: false
+};
+
 const todoSchema = new Schema({
   todoID: Number,
   userID: Number,
@@ -23,56 +34,12 @@ findTodos = () => {
   return Todos.find({});
 };
 
-module.exports = {
-  findTodos
+saveTodos = () => {
+  console.log("Data", data);
+  return Todos.save({ data });
 };
 
-// function findInRunesDb(summonerId) {
-//   return new Promise(function (resolve, reject) {
-//     Runes.find({ 'summonerId': summonerId }, 'summonerId name expireAt pages', function (err, runesData) {
-//       console.log('RunesData', runesData)
-//       if (runesData.length < 1 || runesData.expireAt < new Date(new Date().getTime())) {
-//         resolve(false)
-//       }
-//       else {
-//         resolve(runesData)
-//       }
-//       reject(err)
-//     });
-//   });
-// }
-
-// function create(runes) {
-//   const expireAt = new Date(new Date().getTime() + oneDay),
-//     runesData = new Runes({
-//       expireAt,
-//       summonerId: runes.summonerId,
-//       pages: runes.pages
-//     });
-//   console.log('Created', runesData);
-//   return runesData.save();
-// }
-
-// function remove(summonerId) {
-//   Runes.remove({ 'summonerId': summonerId }, function (err) {
-//     if (err) return (err);
-//     console.log('Removed')
-//   });
-// }
-
-// module.exports = {
-//   create,
-//   findInRunesDb,
-//   remove
-// }
-
-// /*
-// function save(runes) {
-//   runesData.save(runes, function (error) {
-//     console.log('Data saved');
-//     if (error) {
-//       console.log(error);
-//     }
-//   });
-// }
-// */
+module.exports = {
+  findTodos,
+  saveTodos
+};

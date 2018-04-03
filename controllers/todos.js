@@ -1,7 +1,6 @@
 const todosConnection = require("../connections/todosConnection");
 const todosController = () => {
-  console.log("Here");
-  const task = (req, res) => {
+  const taskList = (req, res) => {
     todosConnection
       .findTodos()
       .then(data => {
@@ -19,8 +18,26 @@ const todosController = () => {
         });
       });
   };
+  const saveTask = (req, res) => {
+    todosConnection
+    .saveTodos()
+    .then(data => {
+      res.status(200).send({
+        status: 200,
+        message: "Task saved",
+        data: data
+      });
+    }).catch(error => {
+      res.status(400).send({
+        status: 400,
+        message: "Error",
+        error
+      });
+    });
+  }
   return {
-    task
+    taskList,
+    saveTask,
   };
 };
 
