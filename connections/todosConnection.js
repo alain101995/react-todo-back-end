@@ -1,34 +1,31 @@
-const mongoose = require('mongoose');
-
-const mongoDB = 'mongodb://127.0.0.1/my_database';
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const mongoDB = "mongodb://127.0.0.1/todo";
+const db = mongoose.connection;
+mongoose.Promise = global.Promise;
 mongoose.connect(mongoDB);
 
-mongoose.Promise = global.Promise;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
-const db = mongoose.connection;
+const todoSchema = new Schema({
+  todoID: Number,
+  userID: Number,
+  title: String,
+  description: String,
+  dueDate: Date,
+  createdDate: Date,
+  completedDate: Date,
+  completed: Boolean
+});
+const Todos = mongoose.model("tasks", todoSchema);
 
-db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+findTodos = () => {
+  return Todos.find({});
+};
 
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
-// mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
-
-// const seconds = 1000,
-//   minutes = 60,
-//   hour = 60,
-//   days = 24
-
-// const oneDay = seconds * minutes * hour * days;
-// const runesSchema = new Schema({
-//   expireAt: Date,
-//   userID: Number,
-//   firstName: String,
-//   lastName: String,
-//   phones: String[],
-//   emails: String[]
-// });
-// const Runes = mongoose.model('runes', runesSchema);
+module.exports = {
+  findTodos
+};
 
 // function findInRunesDb(summonerId) {
 //   return new Promise(function (resolve, reject) {
