@@ -31,11 +31,6 @@ findTodos = () => {
   return Todos.find({});
 };
 
-saveTodos = () => {
-  console.log("Data", data);
-  return Todos.save({ data });
-};
-
 module.exports = {
   findTodos,
   saveTodos

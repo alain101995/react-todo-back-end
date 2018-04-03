@@ -13,7 +13,7 @@ const data = {
   title: "To code",
   description: "Code",
   dueDate: "2018-12-22T08:15:00Z",
-  createdDate: "2017-12-22T08:15:00Z",
+  createdDate: new Date(),
   completedDate: "2018-11-22T08:15:00Z",
   completed: false
 };
@@ -34,9 +34,26 @@ findTodos = () => {
   return Todos.find({});
 };
 
+// saveTodos = () => {
+//   const dataToSave = new Todos(data);
+//   dataToSave.save(err => {
+//     if (err) return err;
+//     return 200;
+//   });
+// };
+
 saveTodos = () => {
-  console.log("Data", data);
-  return Todos.save({ data });
+  const dataToSave = new Todos(data);
+  return new Promise((resolve, reject) => {
+    dataToSave.save(err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(200);
+      }
+      reject(err);
+    });
+  });
 };
 
 module.exports = {
