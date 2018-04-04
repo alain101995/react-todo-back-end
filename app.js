@@ -13,8 +13,10 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept",
   );
+  // res.header("Access-Control-Allow-Methods", "*");
+  // Allows to use DELETE method or another method that requires access control
   next();
 });
 
@@ -31,8 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
-//ROUTE COMPONENTS LIST
+//Route component list
 app.use('/api/tasks', require("./routes/tasks"));
+app.use('/api/users', require("./routes/users"));
 
 
 // catch 404 and forward to error handler

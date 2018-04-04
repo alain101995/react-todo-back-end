@@ -8,10 +8,11 @@ mongoose.connect(mongoDB);
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
 const data = {
-  taskID: 2,
+  // taskID: 2,
   userID: 2,
   title: "To code",
   description: "Code",
+  priority: "Low",
   dueDate: "2018-12-22T08:15:00Z",
   createdDate: new Date(),
   completedDate: "2018-11-22T08:15:00Z",
@@ -19,31 +20,25 @@ const data = {
 };
 
 const todoSchema = new Schema({
-  todoID: Number,
+  // taskID: Number,
   userID: Number,
   title: String,
   description: String,
+  priority: String,
   dueDate: Date,
   createdDate: Date,
   completedDate: Date,
   completed: Boolean
 });
-const Todos = mongoose.model("tasks", todoSchema);
+const Task = mongoose.model("tasks", todoSchema);
 
-findTodos = () => {
-  return Todos.find({});
+findTasks = () => {
+  return Task.find({});
 };
 
-// saveTodos = () => {
-//   const dataToSave = new Todos(data);
-//   dataToSave.save(err => {
-//     if (err) return err;
-//     return 200;
-//   });
-// };
-
-saveTodos = () => {
-  const dataToSave = new Todos(data);
+saveTasks = newTask => {
+  console.log("NEW TASK", newTask.taskData);
+  const dataToSave = new Task(newTask.taskData);
   return new Promise((resolve, reject) => {
     dataToSave.save(err => {
       if (err) {
@@ -56,7 +51,19 @@ saveTodos = () => {
   });
 };
 
+deleteTasks = () => {
+  Task.findByIdAndRemove(req.params.taskID, (err, todo) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: "Todo successfully deleted",
+      id: todo._id
+    };
+    return res.status(200).send(response);
+  });
+};
+
 module.exports = {
-  findTodos,
-  saveTodos
+  findTasks,
+  saveTasks,
+  deleteTasks
 };

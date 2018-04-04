@@ -1,13 +1,15 @@
-const express = require('express');
-const userRouter = express.Router();
-const { todosController } = require('../controllers');
+const express = require("express");
+const taskRouter = express.Router();
+const { taskController } = require("../controllers");
 
-const userRoutes = () => {
+const taskRoutes = () => {
   // Get tasks list from the db
-  userRouter.route("/").get(todosController.taskList);
+  taskRouter.route("/").get(taskController.taskList);
   // Save a new tasks on the db
-  userRouter.route("/").post(todosController.saveTask);
-  return userRouter;
+  taskRouter.route("/").post(taskController.saveTask);
+  // Delete task from db
+  taskRouter.route("/").delete(taskController.deleteTask);
+  return taskRouter;
 };
 
-module.exports = userRoutes();
+module.exports = taskRoutes();
