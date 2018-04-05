@@ -52,7 +52,9 @@ saveTasks = newTask => {
 };
 
 deleteTasks = () => {
-  Task.findByIdAndRemove(req.params.taskID, (err, todo) => {
+  // 5ac5493de483931455ea5e00
+  //Tank.remove({ size: 'large'
+  Task.findByIdAndRemove({ _id: "5ac5487370b41b1416f09cda" }, (err, todo) => {
     if (err) return res.status(500).send(err);
     const response = {
       message: "Todo successfully deleted",
@@ -60,6 +62,14 @@ deleteTasks = () => {
     };
     return res.status(200).send(response);
   });
+  // Task.findByIdAndRemove(req.params.taskID, (err, todo) => {
+  //   if (err) return res.status(500).send(err);
+  //   const response = {
+  //     message: "Todo successfully deleted",
+  //     id: todo._id
+  //   };
+  //   return res.status(200).send(response);
+  // });
 };
 
 module.exports = {

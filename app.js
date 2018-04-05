@@ -16,7 +16,10 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept",
   );
   // res.header("Access-Control-Allow-Methods", "*");
-  // Allows to use DELETE method or another method that requires access control
+  /** Allows to use DELETE method or another method that requires access control
+   * each method can be specified ex: "DELETE, POST, GET, etc."
+   * "*" means every method
+  **/
   next();
 });
 

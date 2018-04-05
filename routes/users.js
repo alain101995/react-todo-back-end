@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const { usersController } = require("../controllers");
 
 const userRoutes = () => {
-  // Get tasks list from the db
+  // Get users list from db
   userRouter.route("/").get(usersController.usersList);
   return userRouter;
 };

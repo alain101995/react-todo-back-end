@@ -48,6 +48,7 @@ const tasksController = () => {
     tasksConnection
       .deleteTasks()
       .then(deleted => {
+        console.log('deleted?', deleted)
         if (deleted === 200) {
           res.status(200).send({
             status: 200,
