@@ -3,11 +3,11 @@ const tasksController = () => {
   const taskList = (req, res) => {
     tasksConnection
       .findTasks()
-      .then(data => {
+      .then(tasks => {
         res.status(200).send({
           status: 200,
-          message: "DB Data",
-          data: data
+          message: "Task list: ",
+          data: tasks
         });
       })
       .catch(error => {
@@ -19,7 +19,6 @@ const tasksController = () => {
       });
   };
   const saveTask = (req, res) => {
-    console.log("BODY", req.body);
     tasksConnection
       .saveTasks(req.body)
       .then(saved => {
@@ -46,9 +45,8 @@ const tasksController = () => {
   const deleteTask = (req, res) => {
     console.log("BODY", req.body);
     tasksConnection
-      .deleteTasks()
+      .deleteTasks(req.body.dataToDelete)
       .then(deleted => {
-        console.log('deleted?', deleted)
         if (deleted === 200) {
           res.status(200).send({
             status: 200,

@@ -19,7 +19,7 @@ const data = {
   completed: false
 };
 
-const todoSchema = new Schema({
+const taskSchema = new Schema({
   // taskID: Number,
   userID: Number,
   title: String,
@@ -30,7 +30,7 @@ const todoSchema = new Schema({
   completedDate: Date,
   completed: Boolean
 });
-const Task = mongoose.model("tasks", todoSchema);
+const Task = mongoose.model("tasks", taskSchema);
 
 findTasks = () => {
   return Task.find({});
@@ -38,9 +38,9 @@ findTasks = () => {
 
 saveTasks = newTask => {
   console.log("NEW TASK", newTask.taskData);
-  const dataToSave = new Task(newTask.taskData);
+  const taskToSave = new Task(newTask.taskData);
   return new Promise((resolve, reject) => {
-    dataToSave.save(err => {
+    taskToSave.save(err => {
       if (err) {
         reject(err);
       } else {
@@ -51,25 +51,18 @@ saveTasks = newTask => {
   });
 };
 
-deleteTasks = () => {
-  // 5ac5493de483931455ea5e00
-  //Tank.remove({ size: 'large'
-  Task.findByIdAndRemove({ _id: "5ac5487370b41b1416f09cda" }, (err, todo) => {
-    if (err) return res.status(500).send(err);
-    const response = {
-      message: "Todo successfully deleted",
-      id: todo._id
-    };
-    return res.status(200).send(response);
+deleteTasks = taskID => {
+  const id = taskID.id;
+  return new Promise((resolve, reject) => {
+    Task.findByIdAndRemove({ _id: id }, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(200);
+      }
+      reject(err);
+    });
   });
-  // Task.findByIdAndRemove(req.params.taskID, (err, todo) => {
-  //   if (err) return res.status(500).send(err);
-  //   const response = {
-  //     message: "Todo successfully deleted",
-  //     id: todo._id
-  //   };
-  //   return res.status(200).send(response);
-  // });
 };
 
 module.exports = {
