@@ -40,6 +40,11 @@ saveUser = newUser => {
       reject(err);
     });
   });
+  // const userToSave = new User(newUser);
+  // userToSave.save((saveErr, savedUser) => {
+  //   console.log(savedUser);
+  //   return 200;
+  // });
 };
 
 deleteUser = userID => {
