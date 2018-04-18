@@ -4,23 +4,12 @@ const mongoDB = "mongodb://127.0.0.1/todo";
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoDB);
-
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
-const data = {
-  // taskID: 2,
-  userID: 2,
-  title: "To code",
-  description: "Code",
-  priority: "Low",
-  dueDate: "2018-12-22T08:15:00Z",
-  createdDate: new Date(),
-  completedDate: "2018-11-22T08:15:00Z",
-  completed: false
-};
+// const Schema = require("../schemas/taskSchema")
 
 const taskSchema = new Schema({
-  // taskID: Number,
+  // userID: Schema.Types.ObjectId,
   userID: Number,
   title: String,
   description: String,

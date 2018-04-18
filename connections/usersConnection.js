@@ -7,13 +7,6 @@ mongoose.connect(mongoDB);
 
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
-const data = {
-  firstName: "Alain",
-  lastName: "Quiroz",
-  phones: ["3471857195", "7541915091"],
-  emails: ["alain@mail.com", "victor@correo.com"]
-};
-
 const userSchema = new Schema({
   firstName: String,
   lastName: String,
