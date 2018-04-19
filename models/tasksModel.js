@@ -1,4 +1,5 @@
+const mongoose = require("mongoose");
 const TaskSchema = require("../schemas/taskSchema");
-const Task = mongoose.model("tasks", TaskSchema.taskSchema);
+const TaskModel = mongoose.model("tasks", TaskSchema);
 
-module.exports = { taskModel };
+module.exports = { TaskModel };

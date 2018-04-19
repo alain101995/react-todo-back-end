@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const taskSchema = new Schema({
-  // userID: Number,
-  userID: Schema.Types.ObjectId,
+const TaskSchema = new Schema({
+  // userID: mongoose.Schema.Types.ObjectId,
+  userID: Number,
   title: String,
   description: String,
   priority: String,
@@ -12,4 +12,4 @@ const taskSchema = new Schema({
   completed: Boolean
 });
 
-module.exports = taskSchema;
+module.exports = { TaskSchema };

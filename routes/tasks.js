@@ -4,6 +4,7 @@ const { taskController } = require("../controllers");
 
 const taskRoutes = () => {
   // Get tasks list from db
+  // taskRouter.route("/").get(taskController.taskList);
   taskRouter.route("/").get(taskController.taskList);
   // Save a new tasks on db
   taskRouter.route("/").post(taskController.saveTask);

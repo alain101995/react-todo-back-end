@@ -1,8 +1,10 @@
-const userSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    phones: [String],
-    emails: [String]
-  });
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const UserSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  phones: [String],
+  emails: [String]
+});
 
-  module.exports = userSchema;
+module.exports = UserSchema;

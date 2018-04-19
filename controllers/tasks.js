@@ -1,13 +1,22 @@
 const tasksConnection = require("../connections/tasksConnection");
-// const taskModel = require("../models/tasksModel");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const mongoDB = "mongodb://127.0.0.1/todo";
+const db = mongoose.connection;
+mongoose.Promise = global.Promise;
+mongoose.connect(mongoDB);
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+
+// const taskModel = require("../models/tasksModel"); UNCOMMENT THIS <---
+// FIX MODELS PROBLEM ON SAVE
+
 const tasksController = () => {
   const taskList = (req, res) => {
-    tasksConnection
-      .findTasks()
+    taskModel.TaskModel.find({})
       .then(tasks => {
         res.status(200).send({
           status: 200,
-          message: "Task list: ",
+          message: "Task list",
           data: tasks
         });
       })
@@ -20,6 +29,24 @@ const tasksController = () => {
       });
   };
   const saveTask = (req, res) => {
+    //   console.log("REQ BODY", req.body);
+    //   console.log("REQ BODY", req.body.taskData);
+    //   const taskToSave = new taskModel.TaskModel(req.body.taskData);
+    //   taskToSave.save(err => {
+    //     console.log("Here", err);
+    //     if (err) {
+    //       res.status(400).send({
+    //         status: 400,
+    //         message: "Something went wrong",
+    //         err
+    //       });
+    //     } else {
+    //       res.status(200).send({
+    //         status: 200,
+    //         message: "Saved correctly"
+    //       });
+    //     }
+    // });
     tasksConnection
       .saveTasks(req.body)
       .then(saved => {
