@@ -1,12 +1,22 @@
-const usersConnection = require("../connections/usersConnection");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const mongoDB = "mongodb://127.0.0.1/todo";
+const db = mongoose.connection;
+mongoose.Promise = global.Promise;
+mongoose.connect(mongoDB);
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+
+// const TodoConnection = require("../connections/index");
+
+const UserModel = require("../models/usersModel");
+
 const usersController = () => {
   const usersList = (req, res) => {
-    usersConnection
-      .findUser()
+    UserModel.UserModel.find({})
       .then(users => {
         res.status(200).send({
           status: 200,
-          message: "User list: ",
+          message: "Users list",
           data: users
         });
       })
@@ -19,54 +29,34 @@ const usersController = () => {
       });
   };
   const saveUser = (req, res) => {
-    console.log("User data", req.body.userData);
-    usersConnection
-      .saveUser(req.body.userData)
-      .then(saved => {
-        if (saved === 200) {
-          res.status(200).send({
+    const userToSave = new UserModel.UserModel(req.body.userData);
+    userToSave.save(err => {
+      err
+        ? res.status(400).send({
+            status: 400,
+            message: "Something went wrong",
+            err
+          })
+        : res.status(200).send({
             status: 200,
             message: "Saved correctly"
           });
-        } else {
-          res.status(500).send({
-            status: 500,
-            message: "Bad request"
-          });
-        }
-      })
-      .catch(error => {
-        res.status(400).send({
-          status: 400,
-          message: "Error",
-          error
-        });
-      });
+    });
   };
   const deleteUser = (req, res) => {
-    console.log("BODY", req.body);
-    usersConnection
-      .deleteUser(req.body.dataToDelete)
-      .then(deleted => {
-        if (deleted === 200) {
-          res.status(200).send({
+    console.log("Req user body", req.body);
+    UserModel.UserModel.findByIdAndRemove({ _id: req.body.userID._id }, err => {
+      err
+        ? res.status(400).send({
+            status: 400,
+            message: "Error",
+            err
+          })
+        : res.status(200).send({
             status: 200,
-            message: "Deleted successfuly"
+            message: "Deleted correctly"
           });
-        } else {
-          res.status(500).send({
-            status: 500,
-            message: "Bad request"
-          });
-        }
-      })
-      .catch(error => {
-        res.status(400).send({
-          status: 400,
-          message: "Error",
-          error
-        });
-      });
+    });
   };
   return {
     usersList,
