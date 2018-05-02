@@ -42,7 +42,8 @@ const tasksController = () => {
     });
   };
   const deleteTask = (req, res) => {
-    TaskModel.TaskModel.findByIdAndRemove({ _id: req.body.taskID._id }, err => {
+    console.log(req.body.taskID)
+    TaskModel.TaskModel.findByIdAndRemove({ _id: req.body.taskID }, err => {
       err
         ? res.status(400).send({
             status: 400,
